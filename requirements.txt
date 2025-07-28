@@ -1,5 +1,5 @@
-flask
-opencv-python
-numpy
-mediapipe
-scikit-learn
+flask==3.0.3
+opencv-python==4.7.0.72
+numpy==1.23.5
+mediapipe==0.10.3
+scikit-learn==1.3.0
