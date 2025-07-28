@@ -1,17 +1,29 @@
-# Use a stable Python base image
+# Use an older Python version that supports mediapipe
 FROM python:3.10-slim
 
-# Set the working directory inside the container
+# Set working directory
 WORKDIR /app
 
-# Copy all the project files into the container
-COPY . .
+# Copy only requirement files to leverage Docker caching
+COPY requirements.txt .
 
-# Install required packages
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    libgl1-mesa-glx \
+    libglib2.0-0 \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Expose the port your Flask app will run on
+# Copy the rest of your app files
+COPY . .
+
+# Expose the port Flask uses
 EXPOSE 5000
 
-# Command to run your Flask app
-CMD ["python", "app.py"]
+# Set the environment variable for Flask
+ENV FLASK_APP=app.py
+
+# Start the Flask app
+CMD ["flask", "run", "--host=0.0.0.0", "--port=5000"]
