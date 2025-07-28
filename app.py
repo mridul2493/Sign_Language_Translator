@@ -3,6 +3,8 @@ import cv2
 import numpy as np
 import base64
 from predict_utils import predict_from_frame
+import logging
+logging.basicConfig(level=logging.DEBUG)
 
 app = Flask(__name__)
 
@@ -31,4 +33,4 @@ def reset():
     return jsonify({'status': 'reset'})
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
+    app.run(host="0.0.0.0", port=5000, debug=True)
